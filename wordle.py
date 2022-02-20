@@ -2,22 +2,27 @@ import random
 from logging import getLogger, basicConfig, INFO, DEBUG
 
 
+def query(answer, challenge):
+    hit = set()
+    for letter in challenge:
+        if letter in answer:
+            hit.add(letter)
+    exact = ""
+    for i in range(len(answer)):
+        if answer[i] == challenge[i]:
+            exact += answer[i]
+        else:
+            exact += " "
+    return exact, hit
+
+
 class Wordle():
     def __init__(self, d):
         logger = getLogger()
         self.answer = random.choice(d)
         logger.info(f"Answer: {self.answer}")
-
     def query(self, challenge):
-        hit = set()
-        for letter in challenge:
-            if letter in self.answer:
-                hit.add(letter)
-        exact = {}
-        for i in range(len(self.answer)):
-            if self.answer[i] == challenge[i]:
-                exact[i] = self.answer[i]
-        return exact, hit
+        return query(self.answer, challenge)
 
 def readdic(f):
     words = []
