@@ -1,7 +1,3 @@
-import random
-from logging import getLogger, basicConfig, INFO, DEBUG
-
-
 def query(answer, challenge):
     hit = set()
     for letter in challenge:
@@ -15,14 +11,6 @@ def query(answer, challenge):
             exact += " "
     return exact, hit
 
-
-class Wordle():
-    def __init__(self, d):
-        logger = getLogger()
-        self.answer = random.choice(d)
-        logger.info(f"Answer: {self.answer}")
-    def query(self, challenge):
-        return query(self.answer, challenge)
 
 def readdic(f):
     words = []
