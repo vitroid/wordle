@@ -213,7 +213,6 @@ Youth
 Alcon
 Aught
 Hella
-One’s
 Ought
 Thame
 There
@@ -269,7 +268,6 @@ Judge
 Laugh
 Learn
 Leave
-Let’s
 Limit
 Marry
 Match
@@ -506,7 +504,6 @@ Hence
 Hotly
 Icily
 Infra
-Intl.
 Jildi
 Jolly
 Laxly
@@ -550,7 +547,6 @@ Since
 Sleek
 Slyly
 Small
-So-So
 Sound
 Spang
 Srsly

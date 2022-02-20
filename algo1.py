@@ -8,8 +8,26 @@ class Solver1:
         self.w = Wordle(words)
         self.words = words
         self.history = []
+    def query_simulator(self, answer, challenge):
+        hit = set()
+        for letter in challenge:
+            if letter in answer:
+                hit.add(letter)
+        exact = {}
+        for i in range(len(answer)):
+            if answer[i] == challenge[i]:
+                exact[i] = answer[i]
+        return exact, hit
     def trial(self):
-        candidate = random.choice(self.words)
+        while True:
+            candidate = random.choice(self.words)
+            acceptable = True
+            for c,e,h in self.history:
+                exact, hit = self.query_simulator(candidate, c)
+                if len(h - hit) != 0:
+                    acceptable = False
+            if acceptable:
+                break
         exact, hit = self.w.query(candidate)
         # logger.info(f"{self.w.answer} <=> {candidate} : {(exact, hit)}")
         self.history.append([candidate, exact, hit])
