@@ -1,7 +1,7 @@
 import random
 from logging import getLogger, basicConfig, INFO, DEBUG
 from wordle import Wordle, readdic, query
-
+import sys
 
 class Solver1:
     def __init__(self, words, verbose=False):
@@ -33,12 +33,15 @@ logger = getLogger()
 words = readdic(open("5letters.txt"))
 
 Nloop = 1
+if len(sys.argv) > 1:
+    Nloop = int(sys.argv[1])
+
 loops = 0
 for i in range(Nloop):
     solver = Solver1(words, verbose=(Nloop==1))
     count = 1
     while solver.trial():
         count += 1
-    logger.info(solver.history[-1])
+    logger.info([solver.history[-1], count])
     loops += count
 print(loops / Nloop)
