@@ -1,15 +1,19 @@
-from solver import Solver1
+from solver import Solver, readdic
 import re
 from logging import getLogger, basicConfig, INFO, DEBUG
-from wordle import readdic, query
 
-def query(_, candidate):
-    s = input(f"{candidate} Wordleの返答を入力して下さい。場所が合っていれば大文字、文字だけあっていれば小文字、それ以外は' 'か'.'で。")
-    exact = re.sub('[a-z.]', ' ', s).lower()
-    match = re.sub('[A-Z.]', ' ', s).replace(' ', '')
-    hit = set([letter for letter in match])
-    print(exact, hit)
-    return exact, hit
+
+class ManualSolver(Solver):
+    def __init__(self, verbose=False):
+        self.history = []
+        self.verbose = verbose
+    def query(self, candidate):
+        s = input(f"{candidate}:")
+        exact = re.sub('[^A-Z]', ' ', s).lower()
+        match = re.sub('[^a-z]', ' ', s).replace(' ', '')
+        hit = set([letter for letter in match])
+        print(exact, hit)
+        return exact, hit
     
 
 def main():
@@ -18,9 +22,10 @@ def main():
 
     words = readdic(open("5letters.txt"))
 
-    solver = Solver1(words, query=query)
+    solver = ManualSolver()
     count = 1
-    while solver.trial():
+    print("Input the reply by Wordle. Green and yellow letters are represented by upper and lower cases, and other (unmatched) letters by other symbols such as '.' or '_'")
+    while solver.trial(words):
         count += 1
 
 if __name__ == "__main__":
