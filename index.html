@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="no-js" lang="ja" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+  <head>
+    <style>
+      body {
+        background-color: gray;
+        color: white;
+        text-align: center;
+      }
+      div.board {
+      }
+      button {
+        background-color: gray;
+        color: white;
+        font-weight: bold;
+        font-size: 18pt;
+        height: 50px;
+        width: 50px;
+        vertical-align: moddle;
+        text-align: center;
+      }
+      button.ctl {
+        font-weight: normal;
+        font-size: 12pt;
+        height: 50px;
+        width: 100px;
+        vertical-align: moddle;
+        text-align: center;
+      }
+      div.msg {
+        font-weight: bold;
+        font-size: 16pt;
+        text-align: center;
+      }
+      a {
+        color: white;
+      }
+      span {
+        font-size: 16pt;
+        font-weight: bold;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="board"></div>
+    <div id="msg" class="msg"></div>
+    <div id="memo"></div>
+    <script src="5letters.json"></script>
+    <!--<script src="https://raw.githubusercontent.com/vitroid/wordle/main/5letters.json"></script>-->
+    <script>
+function gid(id){
+  return document.getElementById(id);
+}
+
+var rows = 0;
+var buttonStates = [0,0,0,0,0]; //0=miss, 1=blow, 2=hit
+const buttonColors = {0: "gray", 1:"olive", 2:"darkgreen"};
+var word = randomChoice(words);
+var results = [];
+var excluded = [];
+
+function makeRecord(word, buttonStates){
+  var hit = "";
+  var blow = {};
+  for(let i=0; i<5; i++){
+    if ( buttonStates[i] == 2){
+      hit += word[i];
+    }
+    else{
+      hit += " ";
+    }
+    if ( buttonStates[i] != 0){
+      blow[word[i]] = 1;
+    }
+  }
+  var b = "";
+  Object.keys(blow).sort().forEach(function (key) {
+      b += key;
+  })
+  return [hit, b];
+}
+
+function trial(answer, word){
+  var hit = "";
+  var blow = {};
+  for(let i=0; i<5; i++){
+    if (answer[i] == word[i]){
+      hit += word[i];
+    }
+    else{
+      hit += " ";
+    }
+    if (answer.includes(word[i])){
+      blow[word[i]] = 1;
+    }
+  }
+  var b = "";
+  Object.keys(blow).sort().forEach(function (key) {
+      b += key;
+  })
+  return [hit, b];
+}
+
+function isIdentical(s,t){
+  // compare two sets
+  Object.keys(hash).forEach(function (key) {
+      var value = hash[key]
+      // iteration code
+  })
+}
+
+function findCandidate(results){
+  var w;
+  for(var i=0;i<words.length; i++){
+    w = words[i];
+    if ( excluded.indexOf(w) >= 0 ){
+      continue;
+    }
+    var fail=false;
+    for(var j=0;j<results.length; j++){
+      const hb = results[j][1];
+      hb2 = trial(w, results[j][0]);
+      console.log(w, hb2[0], hb2[1])
+      if ((hb[0] === hb2[0])&&(hb[1] === hb2[1])){
+      }
+      else{
+        fail = true;
+      }
+    }
+    if ( ! fail ){
+      return w;
+    }
+  }
+}
+
+function irand(n=10) {
+  return Math.floor(Math.random() * n);
+}
+
+function randomChoice(arr) {
+  return arr[irand(arr.length)];
+}
+
+function rotate(ev){
+  // rotate the state
+  id = ev.target.id
+  order = id[2]
+  buttonStates[order] += 1;
+  buttonStates[order] %= 3;
+  ev.target.style.backgroundColor = buttonColors[buttonStates[order]];
+}
+
+function resetRow(){
+  buttonStates = [0,0,0,0,0];
+  gid("memo").innerHTML += word + " ";
+  excluded.push(word);
+
+  word = findCandidate(results);
+  for (var i=0; i<5; i++) {
+    id = "c"+rows+i;
+    gid(id).style.backgroundColor = buttonColors[buttonStates[i]];
+    gid(id).innerHTML = word[i].toUpperCase();
+  }
+
+}
+
+function addRow()
+{
+  var s = "";
+  var id = "undef"+rows;
+  s += "<button class='ctl' id='"+id+"'>unavailable</button>";
+  for (var i=0; i<5; i++) {
+    id = "c"+rows+i;
+    s += "<button id='"+id+"'>"+word[i].toUpperCase()+"</button>";
+  }
+  var id = "set"+rows;
+  s += "<button class='ctl' id='"+id+"'>SET</button><br />";
+
+  gid("board").innerHTML += s;
+
+  var id = "undef"+rows;
+  gid(id).onclick=resetRow;
+  for (let i=0; i<5; i++) {
+    id = "c"+rows+i;
+    gid(id).onclick=rotate;
+  }
+  var id = "set"+rows;
+  gid(id).onclick=nextRow;
+}
+
+function inactivate1(el){
+  el.onclick = "#";
+  el.style.color = "black";
+  el.disabled = true;
+}
+
+function inactivate(row){
+  inactivate1(gid("undef"+row));
+  for (var i=0; i<5; i++) {
+    inactivate1(gid("c"+row+i));
+  }
+  inactivate1(gid("set"+row));
+}
+
+
+
+function nextRow(){
+  var match = true;
+  for (var i=0; i<5; i++) {
+    if (buttonStates[i] != 2){
+      match = false;
+    }
+  }
+  results.push([word, makeRecord(word, buttonStates)]);
+  console.log(results);
+  inactivate(rows);
+  if (match) {
+    gid("msg").innerHTML = "Congrats! Reload to start again.";
+    var unavail = gid("memo").innerHTML;
+    if (unavail.length > 0){
+      gid("memo").innerHTML = "<a href='mailto:vitroid+wordle@gmail.com?body="+escape(unavail)+"&subject="+escape("Unavailable words")+"'>Report these unavailable words to improve the dictionary of the wordle solver: <span>"+unavail+"</span></a>";
+    }
+    return;
+  }
+  buttonStates = [0,0,0,0,0];
+  word = findCandidate(results);
+  rows += 1;
+  addRow();
+}
+console.log(trial("slate", "least"))
+addRow();
+    </script>
+  </body>
+</html>
