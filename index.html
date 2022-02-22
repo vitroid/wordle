@@ -3,15 +3,17 @@
   <head>
     <style>
       body {
-        background-color: gray;
+        background-color: #111;
         color: white;
         text-align: center;
       }
       div.board {
       }
       button {
-        background-color: gray;
+        background-color: #444;
         color: white;
+        border: 0px;
+        margin: 2px;
         font-weight: bold;
         font-size: 18pt;
         height: 50px;
@@ -40,9 +42,13 @@
         font-weight: bold;
         color: white;
       }
+      h1 {
+        font-family: 'Georgia';
+      }
     </style>
   </head>
   <body>
+    <h1>Wordle Guesser</h1>
     <div id="board"></div>
     <div id="msg" class="msg"></div>
     <div id="memo"></div>
@@ -55,7 +61,7 @@ function gid(id){
 
 var rows = 0;
 var buttonStates = [0,0,0,0,0]; //0=miss, 1=blow, 2=hit
-const buttonColors = {0: "gray", 1:"olive", 2:"darkgreen"};
+const buttonColors = {0: "#444", 1:"olive", 2:"darkgreen"};
 var word = randomChoice(words);
 var results = [];
 var excluded = [];
