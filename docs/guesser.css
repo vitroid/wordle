@@ -14,7 +14,7 @@ button {
     font-size: 18pt;
     height: 50px;
     width: 50px;
-    vertical-align: moddle;
+    vertical-align: middle;
     text-align: center;
 }
 button.ctl {
@@ -22,7 +22,7 @@ button.ctl {
     font-size: 12pt;
     height: 50px;
     width: 100px;
-    vertical-align: moddle;
+    vertical-align: middle;
     text-align: center;
 }
 div.msg {
