@@ -7,7 +7,7 @@
 	export let active;
 </script>
 
-<Unavail  active={active} />
+<Unavail  active={active} on:message />
 {#each guess as L, i}
 <Letter L={L} active={active} order={i}/>
 {/each}

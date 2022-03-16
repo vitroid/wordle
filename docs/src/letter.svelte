@@ -13,13 +13,18 @@
 	function rotateState(){
 		state = (state+1) % 3;
 		color = colors[state];	
-		setLetter(order, L);
-		setState(order, state);
+		// setLetter(order, L);
+		// setState(order, state);
 	}
 	onMount( () => {
 		setLetter(order, L);
 		setState(order, state);
 	});
+	$: {
+		setLetter(order, L);
+		setState(order, state);
+	}
+
 </script>
 
 <button disabled={!active} on:click={rotateState} style="--color: {color}">

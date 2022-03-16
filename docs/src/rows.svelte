@@ -1,6 +1,6 @@
 <script>
   import Row from "./row.svelte";
-	import {randomChoice, findCandidate, isFinished} from "./logic.svelte";
+	import {randomChoice, findCandidate, excludeWord} from "./logic.svelte";
 	import {words} from "./words.svelte";
 	import { onMount } from 'svelte';
 
@@ -16,18 +16,24 @@
 		guesses[l] = word;
 	}
 	
-	function callback(){
-		if ( isFinished() ){
-			msg = "Well.done. Reload to start again."
+	function callback(event){
+		switch ( event.detail.text ){
+			case "unavail":
+				excludeWord();
+				guesses.pop();
+				console.log("Delete")
+				break;
+			case "finished":
+				msg = "Well.done. Reload to start again."
+				return;
 		}
-		else{
-			let word = findCandidate();
-			if ( word == "" ){
-				msg="Give up!"
-			}
-			else{	
-				addItem(word);
-			}
+		let word = findCandidate();
+		if ( word == "" ){
+			msg="Give up!"
+		}
+		else{	
+			addItem(word);
+			console.log("Add", word)
 		}
 	}
 

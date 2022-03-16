@@ -13,12 +13,19 @@
 		return ! stateHistory[l-1][0].includes(".")
 	}
 	
+	export function excludeWord(){
+		excluded.push(currentWord.join(""));
+		console.log(excluded)
+	}
+
 	export function setLetter(order, letter){
 		currentWord[order] = letter;
+		console.log(currentWord)
 	}
 	
 	export function setState(order, state){
 		currentState[order] = state;
+		console.log(currentState)
 	}
 
 	function organizeState(word, state){

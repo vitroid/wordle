@@ -1,23 +1,18 @@
 <script>
-	import { record } from "./logic.svelte";
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	export let active;
-	
-	function nextLine() {
+
+	function unavail() {
 		dispatch('message', {
-			text: 'Hello!'
+			text: 'unavail'
 		});
 	}
 
-	function confirm(){
-		record();
-		nextLine();
-	}
 </script>
 
-<button on:click={confirm} disabled={!active}>
-	Confitm
+<button disabled={!active} on:click={unavail}>
+	Unavailable
 </button>
 
 <style>
