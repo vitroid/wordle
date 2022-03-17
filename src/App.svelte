@@ -1,5 +1,5 @@
 <script>
-  import Rows from "./rows.svelte";
+  import Rows from "../../src/rows.svelte";
 
 </script>
 
