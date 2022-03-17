@@ -23,7 +23,7 @@
 
 <style>
 	button {
-			background-color: #444;
+			background-color: #3A3A3C;
 			color: white;
 			border: 0px;
 			margin: 2px;

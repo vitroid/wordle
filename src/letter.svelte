@@ -7,7 +7,7 @@
 	export let active;
 	export let order;
 	let state = 0;
-	const colors=["#444", "olive", "darkgreen"]
+	const colors=["#3A3A3C", "#B1A04C", "#618B55"]
 	let color = colors[0];
 	
 	function rotateState(){
