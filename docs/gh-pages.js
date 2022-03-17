@@ -3,11 +3,11 @@ var ghpages = require('gh-pages');
 ghpages.publish(
     'public', // path to public directory
     {
-        branch: 'gh-pages',
-        repo: 'https://github.com/username/yourproject.git', // Update to point to your repository  
+        branch: 'svelte-static',
+        repo: 'https://github.com/vitroid/wordle.git', // Update to point to your repository  
         user: {
-            name: 'Your name', // update to use your name
-            email: 'Your Email address' // Update to use your email
+            name: 'MM', // update to use your name
+            email: 'vitroid@gmail.com' // Update to use your email
         }
     },
     () => {
