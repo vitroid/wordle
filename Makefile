@@ -1,0 +1,2 @@
+prepare:
+	npm install
