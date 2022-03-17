@@ -6784,7 +6784,57 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (11:0) {#each guess as L, i}
+    // (10:0) {#if (active)}
+    function create_if_block_1(ctx) {
+    	let unavail;
+    	let current;
+
+    	unavail = new Unavail({
+    			props: { active: /*active*/ ctx[1] },
+    			$$inline: true
+    		});
+
+    	unavail.$on("message", /*message_handler*/ ctx[2]);
+
+    	const block = {
+    		c: function create() {
+    			create_component(unavail.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(unavail, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const unavail_changes = {};
+    			if (dirty & /*active*/ 2) unavail_changes.active = /*active*/ ctx[1];
+    			unavail.$set(unavail_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(unavail.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(unavail.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(unavail, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1.name,
+    		type: "if",
+    		source: "(10:0) {#if (active)}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (14:0) {#each guess as L, i}
     function create_each_block$1(ctx) {
     	let letter;
     	let current;
@@ -6830,7 +6880,57 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(11:0) {#each guess as L, i}",
+    		source: "(14:0) {#each guess as L, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (18:0) {#if (active)}
+    function create_if_block(ctx) {
+    	let confirm;
+    	let current;
+
+    	confirm = new Confirm({
+    			props: { active: /*active*/ ctx[1] },
+    			$$inline: true
+    		});
+
+    	confirm.$on("message", /*message_handler_1*/ ctx[3]);
+
+    	const block = {
+    		c: function create() {
+    			create_component(confirm.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(confirm, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const confirm_changes = {};
+    			if (dirty & /*active*/ 2) confirm_changes.active = /*active*/ ctx[1];
+    			confirm.$set(confirm_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(confirm.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(confirm.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(confirm, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(18:0) {#if (active)}",
     		ctx
     	});
 
@@ -6838,19 +6938,12 @@ var app = (function () {
     }
 
     function create_fragment$2(ctx) {
-    	let unavail;
     	let t0;
     	let t1;
-    	let confirm;
+    	let t2;
     	let br;
     	let current;
-
-    	unavail = new Unavail({
-    			props: { active: /*active*/ ctx[1] },
-    			$$inline: true
-    		});
-
-    	unavail.$on("message", /*message_handler*/ ctx[2]);
+    	let if_block0 = /*active*/ ctx[1] && create_if_block_1(ctx);
     	let each_value = /*guess*/ ctx[0];
     	validate_each_argument(each_value);
     	let each_blocks = [];
@@ -6863,16 +6956,11 @@ var app = (function () {
     		each_blocks[i] = null;
     	});
 
-    	confirm = new Confirm({
-    			props: { active: /*active*/ ctx[1] },
-    			$$inline: true
-    		});
-
-    	confirm.$on("message", /*message_handler_1*/ ctx[3]);
+    	let if_block1 = /*active*/ ctx[1] && create_if_block(ctx);
 
     	const block = {
     		c: function create() {
-    			create_component(unavail.$$.fragment);
+    			if (if_block0) if_block0.c();
     			t0 = space();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -6880,15 +6968,16 @@ var app = (function () {
     			}
 
     			t1 = space();
-    			create_component(confirm.$$.fragment);
+    			if (if_block1) if_block1.c();
+    			t2 = space();
     			br = element("br");
-    			add_location(br, file$2, 13, 39, 335);
+    			add_location(br, file$2, 21, 0, 381);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			mount_component(unavail, target, anchor);
+    			if (if_block0) if_block0.m(target, anchor);
     			insert_dev(target, t0, anchor);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -6896,14 +6985,34 @@ var app = (function () {
     			}
 
     			insert_dev(target, t1, anchor);
-    			mount_component(confirm, target, anchor);
+    			if (if_block1) if_block1.m(target, anchor);
+    			insert_dev(target, t2, anchor);
     			insert_dev(target, br, anchor);
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			const unavail_changes = {};
-    			if (dirty & /*active*/ 2) unavail_changes.active = /*active*/ ctx[1];
-    			unavail.$set(unavail_changes);
+    			if (/*active*/ ctx[1]) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+
+    					if (dirty & /*active*/ 2) {
+    						transition_in(if_block0, 1);
+    					}
+    				} else {
+    					if_block0 = create_if_block_1(ctx);
+    					if_block0.c();
+    					transition_in(if_block0, 1);
+    					if_block0.m(t0.parentNode, t0);
+    				}
+    			} else if (if_block0) {
+    				group_outros();
+
+    				transition_out(if_block0, 1, 1, () => {
+    					if_block0 = null;
+    				});
+
+    				check_outros();
+    			}
 
     			if (dirty & /*guess, active*/ 3) {
     				each_value = /*guess*/ ctx[0];
@@ -6933,38 +7042,58 @@ var app = (function () {
     				check_outros();
     			}
 
-    			const confirm_changes = {};
-    			if (dirty & /*active*/ 2) confirm_changes.active = /*active*/ ctx[1];
-    			confirm.$set(confirm_changes);
+    			if (/*active*/ ctx[1]) {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+
+    					if (dirty & /*active*/ 2) {
+    						transition_in(if_block1, 1);
+    					}
+    				} else {
+    					if_block1 = create_if_block(ctx);
+    					if_block1.c();
+    					transition_in(if_block1, 1);
+    					if_block1.m(t2.parentNode, t2);
+    				}
+    			} else if (if_block1) {
+    				group_outros();
+
+    				transition_out(if_block1, 1, 1, () => {
+    					if_block1 = null;
+    				});
+
+    				check_outros();
+    			}
     		},
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(unavail.$$.fragment, local);
+    			transition_in(if_block0);
 
     			for (let i = 0; i < each_value.length; i += 1) {
     				transition_in(each_blocks[i]);
     			}
 
-    			transition_in(confirm.$$.fragment, local);
+    			transition_in(if_block1);
     			current = true;
     		},
     		o: function outro(local) {
-    			transition_out(unavail.$$.fragment, local);
+    			transition_out(if_block0);
     			each_blocks = each_blocks.filter(Boolean);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				transition_out(each_blocks[i]);
     			}
 
-    			transition_out(confirm.$$.fragment, local);
+    			transition_out(if_block1);
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			destroy_component(unavail, detaching);
+    			if (if_block0) if_block0.d(detaching);
     			if (detaching) detach_dev(t0);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(t1);
-    			destroy_component(confirm, detaching);
+    			if (if_block1) if_block1.d(detaching);
+    			if (detaching) detach_dev(t2);
     			if (detaching) detach_dev(br);
     		}
     	};
