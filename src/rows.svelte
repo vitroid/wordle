@@ -1,5 +1,5 @@
 <script>
-  import Row from "./row.svelte";
+	import Row from "./row.svelte";
 	import {randomChoice, findCandidate, excludeWord} from "./logic.svelte";
 	import {words} from "./words.svelte";
 	import { onMount } from 'svelte';

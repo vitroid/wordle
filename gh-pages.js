@@ -3,7 +3,7 @@ var ghpages = require('gh-pages');
 ghpages.publish(
     'public', // path to public directory
     {
-        branch: 'gh-pages',
+        branch: 'pages',
         repo: 'https://github.com/vitroid/wordle.git', // Update to point to your repository  
         user: {
             name: 'vitroid', // update to use your name
